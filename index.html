@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Downloader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            /* Default to Facebook Theme */
+            --primary: #1877F2;
+            --primary-hover: #166fe5;
+            --secondary: #42b72a;
+            --gradient: none;
+            --bg-light: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #050505;
+            --text-muted: #65676b;
+            --border: #dddfe2;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+
+            --blob-1-color: rgba(24, 119, 242, 0.2);
+            --blob-2-color: rgba(66, 183, 42, 0.15);
+            --blob-3-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Instagram Theme Override */
+        body.instagram-theme {
+            --primary: #E1306C;
+            --primary-hover: #c62a5f;
+            --secondary: #833AB4;
+            --gradient: linear-gradient(45deg, #F77737, #E1306C, #833AB4, #405DE6);
+            --bg-light: #fafafa;
+            --blob-1-color: rgba(225, 48, 108, 0.2);
+            --blob-2-color: rgba(131, 58, 180, 0.15);
+            --blob-3-color: rgba(247, 119, 55, 0.2);
+            --border: #dbdbdb;
+            --text-main: #262626;
+            --text-muted: #8e8e8e;
+        }
+
+        /* Twitter (X) Theme Override */
+        body.twitter-theme {
+            --primary: #1DA1F2;
+            --primary-hover: #1991db;
+            --secondary: #657786;
+            --gradient: linear-gradient(45deg, #1DA1F2, #1795e0);
+            --bg-light: #f5f8fa;
+            --card-bg: #ffffff;
+            --text-main: #14171a;
+            --text-muted: #657786;
+            --border: #e1e8ed;
+            --blob-1-color: rgba(29, 161, 242, 0.15);
+            --blob-2-color: rgba(101, 119, 134, 0.1);
+            --blob-3-color: rgba(230, 236, 240, 0.8);
+        }
+
+        /* Pinterest Theme Override */
+        body.pinterest-theme {
+            --primary: #E60023;
+            --primary-hover: #ad001a;
+            --secondary: #bd081c;
+            --gradient: linear-gradient(45deg, #E60023, #bd081c);
+            --bg-light: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #111111;
+            --text-muted: #767676;
+            --border: #e1e1e1;
+            --blob-1-color: rgba(230, 0, 35, 0.1);
+            --blob-2-color: rgba(189, 8, 28, 0.05);
+            --blob-3-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Snapchat Theme Override */
+        body.snapchat-theme {
+            --primary: #FFFC00;
+            --primary-hover: #e6e300;
+            --secondary: #000000;
+            --gradient: linear-gradient(45deg, #FFFC00, #ffe600);
+            --bg-light: #fefefe;
+            --card-bg: #ffffff;
+            --text-main: #000000;
+            --text-muted: #555555;
+            --border: #e0e0e0;
+            --blob-1-color: rgba(255, 252, 0, 0.2);
+            --blob-2-color: rgba(0, 0, 0, 0.05);
+            --blob-3-color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.snapchat-theme button.btn {
+            color: black;
+        }
+
+        /* Threads Theme Override */
+        body.threads-theme {
+            --primary: #000000;
+            --primary-hover: #333333;
+            --secondary: #101010;
+            --gradient: linear-gradient(45deg, #000000, #333333);
+            --bg-light: #fafafa;
+            --card-bg: #ffffff;
+            --text-main: #000000;
+            --text-muted: #777777;
+            --border: #dbdbdb;
+            --blob-1-color: rgba(0, 0, 0, 0.1);
+            --blob-2-color: rgba(50, 50, 50, 0.05);
+            --blob-3-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* TikTok Theme Override */
+        /* TikTok Theme Override */
+        body.tiktok-theme {
+            --primary: #FE2C55;
+            --primary-hover: #ef2950;
+            --primary-rgb: 254, 44, 85;
+            --secondary: #25F4EE;
+            --gradient: linear-gradient(135deg, #FE2C55 0%, #000000 50%, #25F4EE 100%);
+            --bg-light: #FFFFFF;
+            --text-main: #000000;
+            --blob-1-color: rgba(254, 44, 85, 0.1);
+            --blob-2-color: rgba(37, 244, 238, 0.1);
+            --blob-3-color: rgba(0, 0, 0, 0.05);
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        /* TeraBox Theme Override */
+        body.terabox-theme {
+            --primary: #0183C1;
+            --primary-hover: #016fa3;
+            --secondary: #2f80ed;
+            --gradient: linear-gradient(135deg, #0183C1 0%, #30A9DE 100%);
+            --bg-light: #f0f8ff;
+            --text-main: #061e2a;
+            --blob-1-color: rgba(1, 131, 193, 0.15);
+            --blob-2-color: rgba(47, 128, 237, 0.1);
+            --blob-3-color: rgba(255, 255, 255, 0.8);
+            --border: rgba(1, 131, 193, 0.2);
+        }
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Animated Background Blobs */
+        .blob-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate;
+            transition: background 0.5s ease;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--blob-1-color);
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: var(--blob-2-color);
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 300px;
+            height: 300px;
+            background: var(--blob-3-color);
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+            transition: color 0.3s;
+        }
+
+        body.instagram-theme header h1 {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .supported-label {
+            color: var(--primary);
+        }
+
+        /* Snapchat Theme Specifics for Visibility */
+        body.snapchat-theme header h1,
+        body.snapchat-theme .supported-label {
+            color: #FFFC00;
+            -webkit-text-stroke: 3.5px black;
+            paint-order: stroke fill;
+            text-shadow: none;
+        }
+
+        /* Fix Button Text Color for Snapchat (Yellow bg needs black text) */
+        body.snapchat-theme .btn,
+        body.snapchat-theme button:not(#advancedToggle),
+        body.snapchat-theme a.btn {
+            color: black !important;
+            font-weight: 700;
+        }
+
+        /* Ensure Icons in buttons are also black */
+        body.snapchat-theme .btn svg,
+        body.snapchat-theme button svg {
+            stroke: black !important;
+        }
+
+        /* Footer link hover color for snapchat */
+        body.snapchat-theme .footer-link:hover {
+            color: #FFFC00;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        /* Common Utility Classes */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Downloader Styles */
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 50px;
+            border: 1px solid var(--border);
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            color: var(--text-main);
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
